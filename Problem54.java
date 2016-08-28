@@ -89,6 +89,24 @@ public class Problem54{
 		
 		return result;
 	}
+
+	public static boolean isStraight(String hands[]){
+		String []values={"2","3","4","5","6","7","8","9","T","J","Q","K","A"};
+		String cards=Arrays.toString(hands);
+		for(int i=0;i<values.length-5;i++){
+			int counter=0;
+			for(int j=i;j<i+5;j++){
+				if(cards.contains(values[j])){
+					counter++;
+				}
+			}
+			if(counter==5){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static String winner(String hands[]){
 		String []player1=new String[5];
 		String []player2=new String[5];
@@ -100,16 +118,16 @@ public class Problem54{
 		}
 		if(isRoyalFlush(Arrays.toString(player2))){
 			return "Player 2";			
-		}
+		}*/
 
-		if(isFlush(player1)){
-			System.out.println("Player 1 Flush: "+Arrays.toString(player1));
+		if(isStraight(player1)){
+			System.out.println("Player 1 Straight: "+Arrays.toString(player1));
 			return "Player 1";
 		}	
-		if(isFlush(player2)){
-			System.out.println("Player 2 Flush: "+Arrays.toString(player2));
+		if(isStraight(player2)){
+			System.out.println("Player 2 Straight: "+Arrays.toString(player2));
 			return "Player 2";
-		}*/
+		}/*
 		String [] res1=hasThreeKind(player1);
 		String [] res2=hasThreeKind(player2);
 		if(res1[0].equals("ThreeKind")){
@@ -128,7 +146,7 @@ public class Problem54{
 			}else{
 				System.out.println("Player 2 has ThreeKind of: "+res2[1]+Arrays.toString(player2));
 			}
-		}
+		}*/
 		//System.out.println(hasThreeKind(player1)+" "+Arrays.toString(player1));
 			
 		return "Don't know";	
