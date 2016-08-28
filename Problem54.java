@@ -61,40 +61,51 @@ public class Problem54{
 		return "No ThreeKind";
 	}
 
-	public static String hasPair(String []hand){
-		char suit=hand[0].charAt(0);
-		char counter=1;
-		for(int i=1;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
+	public static String[] hasPair(String []hand){
+		String[] result=new String[3];
+		for(int j=0;j<hand.length-1;j++){
+			char suit=hand[j].charAt(0);
+			char counter=1;
+			for(int i=j+1;i<hand.length;i++){
+				if(hand[i].contains(""+suit)){
+					counter++;
+				}
 			}
-		}
 
-		if(counter==2){
-			return "Pair: "+suit;
+			if(counter==2){
+				result[0]="Pair";
+				result[1]=""+suit;
+				return result;
+			}	
 		}
-		suit=hand[1].charAt(0);
-		counter=1;
-		for(int i=2;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
-			}
-		}
-		if(counter==2){
-			return "Pair: "+suit;
-		}
+		result[0]="No Pair";
+		return result;
+	}
 
-		suit=hand[2].charAt(0);
-		counter=1;
-		for(int i=3;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
+	public static String[] hasOtherPair(String []result,String []hand){
+
+		for(int j=0;j<hand.length-1;j++){
+			char suit=hand[j].charAt(0);
+			if(hand[j].contains(result[1])){
+				continue;
 			}
+			char counter=1;
+			for(int i=j+1;i<hand.length;i++){
+				if(hand[i].contains(""+suit)){
+					counter++;
+				}
+			}
+
+			if(counter==2){
+				result[0]="Pair";
+				result[2]=""+suit;
+				return result;
+			}	
 		}
-		if(counter==2){
-			return "Pair: "+suit;
-		}
-		return "No Pair";
+		
+
+		
+		return result;
 	}
 	public static String winner(String hands[]){
 		String []player1=new String[5];
@@ -102,10 +113,10 @@ public class Problem54{
 		System.arraycopy(hands,0,player1,0,player1.length);
 		System.arraycopy(hands,player1.length,player2,0,player2.length);
 		//royal flush
-		if(isRoyalFlush(Arrays.toString(player1))){
+		/*if(isRoyalFlush(Arrays.toString(player1))){
 			return "Player 1";
 		}
-		if(isRoyalFlush(Arrays.toString(player1))){
+		if(isRoyalFlush(Arrays.toString(player2))){
 			return "Player 2";			
 		}
 
@@ -116,10 +127,18 @@ public class Problem54{
 		if(isFlush(player2)){
 			System.out.println("Player 2 Flush: "+Arrays.toString(player2));
 			return "Player 2";
+		}*/
+		String [] res1=hasPair(player1);
+		String [] res2=hasPair(player2);
+		if(res1[0].equals("Pair")){
+			System.out.println("Player 1 has Pair of: "+res1[1]+": "+Arrays.toString(player1));	
 		}
-
-
-	else return "Don't know";	
+		
+		if(res2[0].equals("Pair")){
+			System.out.println("Player 2 has Pair of: "+res2[1]+": "+Arrays.toString(player2));	
+		}
+			
+		return "Don't know";	
 
 	}
 
