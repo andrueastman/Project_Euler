@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Problem54{
+	public static String []values={"2","3","4","5","6","7","8","9","T","J","Q","K","A"};
 	public static boolean isRoyalFlush(String hand){
 		if(hand.contains("T") && hand.contains("K") && hand.contains("Q") && hand.contains("J") && hand.contains("A") && isFlush(hand.split(" ")))
 			return true;
@@ -64,6 +65,22 @@ public class Problem54{
 		return result;
 	}
 
+	public static String[] cardValues(String []hands){
+		String[] x=new String[2];
+		String cards=Arrays.toString(hands);
+		for (int i=values.length-1; i>=0; i--) {
+			if(cards.contains(values[i])){
+				if(x[0]==null){
+					x[0]=values[i];
+				}
+				else{
+					x[1]=values[i];
+					return x;
+				}
+			}
+		}
+		return x;	
+	}
 	public static String[] hasOtherPair(String []result,String []hand){
 
 		for(int j=0;j<hand.length-1;j++){
@@ -91,7 +108,7 @@ public class Problem54{
 	}
 
 	public static boolean isStraight(String hands[]){
-		String []values={"2","3","4","5","6","7","8","9","T","J","Q","K","A"};
+		
 		String cards=Arrays.toString(hands);
 		for(int i=0;i<values.length-5;i++){
 			int counter=0;
@@ -148,7 +165,7 @@ public class Problem54{
 			}
 		}*/
 		//System.out.println(hasThreeKind(player1)+" "+Arrays.toString(player1));
-			
+		System.out.println(Arrays.toString(cardValues(player1))+": "+Arrays.toString(player1));
 		return "Don't know";	
 
 	}
