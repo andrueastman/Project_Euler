@@ -22,43 +22,25 @@ public class Problem54{
 		return true;
 	}
 
-	public static String hasThreeKind(String []hand){
-		char suit=hand[0].charAt(0);
-		char counter=1;
-		for(int i=1;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
+	public static String[] hasThreeKind(String []hand){
+		String[] result=new String[3];
+		for(int j=0;j<hand.length-2;j++){
+			char suit=hand[j].charAt(0);
+			char counter=1;
+			for(int i=j+1;i<hand.length;i++){
+				if(hand[i].contains(""+suit)){
+					counter++;
+				}
 			}
-		}
 
-		if(counter==3){
-			return "ThreeKind: "+suit;
+			if(counter==3){
+				result[0]="ThreeKind";
+				result[1]=""+suit;
+				return result;
+			}	
 		}
-
-		suit=hand[1].charAt(0);
-		counter=1;
-		for(int i=2;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
-			}
-		}
-
-		if(counter==3){
-			return "ThreeKind: "+suit;
-		}
-
-		suit=hand[2].charAt(0);
-		counter=1;
-		for(int i=3;i<hand.length;i++){
-			if(hand[i].contains(""+suit)){
-				counter++;
-			}
-		}
-		if(counter==3){
-			return "ThreeKind: "+suit;
-		}
-
-		return "No ThreeKind";
+		result[0]="No ThreeKind";
+		return result;
 	}
 
 	public static String[] hasPair(String []hand){
@@ -128,21 +110,26 @@ public class Problem54{
 			System.out.println("Player 2 Flush: "+Arrays.toString(player2));
 			return "Player 2";
 		}*/
-		String [] res1=hasPair(player1);
-		String [] res2=hasPair(player2);
-		if(res1[0].equals("Pair")){
+		String [] res1=hasThreeKind(player1);
+		String [] res2=hasThreeKind(player2);
+		if(res1[0].equals("ThreeKind")){
 			res1=hasOtherPair(res1,player1);
 			if(res1[2]!=null){
 				System.out.println("Player 1 has two Pairs of: "+res1[1]+" and "+res1[2]+" "+Arrays.toString(player1));		
+			}else{
+				System.out.println("Player 1 has ThreeKind of: "+res1[1]+Arrays.toString(player1));
 			}
 		}
 		
-		if(res2[0].equals("Pair")){
+		if(res2[0].equals("ThreeKind")){
 			res2=hasOtherPair(res2,player2);
 			if(res1[2]!=null){
 				System.out.println("Player 2 has two Pairs of: "+res2[1]+" and "+res2[2]+" "+Arrays.toString(player2));	
+			}else{
+				System.out.println("Player 2 has ThreeKind of: "+res2[1]+Arrays.toString(player2));
 			}
 		}
+		//System.out.println(hasThreeKind(player1)+" "+Arrays.toString(player1));
 			
 		return "Don't know";	
 
