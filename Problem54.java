@@ -131,11 +131,17 @@ public class Problem54{
 		String [] res1=hasPair(player1);
 		String [] res2=hasPair(player2);
 		if(res1[0].equals("Pair")){
-			System.out.println("Player 1 has Pair of: "+res1[1]+": "+Arrays.toString(player1));	
+			res1=hasOtherPair(res1,player1);
+			if(res1[2]!=null){
+				System.out.println("Player 1 has two Pairs of: "+res1[1]+" and "+res1[2]+" "+Arrays.toString(player1));		
+			}
 		}
 		
 		if(res2[0].equals("Pair")){
-			System.out.println("Player 2 has Pair of: "+res2[1]+": "+Arrays.toString(player2));	
+			res2=hasOtherPair(res2,player2);
+			if(res1[2]!=null){
+				System.out.println("Player 2 has two Pairs of: "+res2[1]+" and "+res2[2]+" "+Arrays.toString(player2));	
+			}
 		}
 			
 		return "Don't know";	
