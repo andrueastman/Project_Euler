@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Problem54{
 	public static boolean isRoyalFlush(String hand){
-		if(hand.contains("T") && hand.contains("K") && hand.contains("Q") && hand.contains("J") && hand.contains("A"))
+		if(hand.contains("T") && hand.contains("K") && hand.contains("Q") && hand.contains("J") && hand.contains("A") && isFlush(hand.split(" ")))
 			return true;
 		else 
 			return false;
@@ -22,7 +22,7 @@ public class Problem54{
 		return true;
 	}
 
-	public static boolean hasThreeKind(String []hand){
+	public static String hasThreeKind(String []hand){
 		char suit=hand[0].charAt(0);
 		char counter=1;
 		for(int i=1;i<hand.length;i++){
@@ -31,8 +31,9 @@ public class Problem54{
 			}
 		}
 
-		if(counter==3)
-			return true;
+		if(counter==3){
+			return "ThreeKind: "+suit;
+		}
 
 		suit=hand[1].charAt(0);
 		counter=1;
@@ -41,8 +42,10 @@ public class Problem54{
 				counter++;
 			}
 		}
-		if(counter==3)
-			return true;
+
+		if(counter==3){
+			return "ThreeKind: "+suit;
+		}
 
 		suit=hand[2].charAt(0);
 		counter=1;
@@ -51,13 +54,14 @@ public class Problem54{
 				counter++;
 			}
 		}
-		if(counter==3)
-			return true;
+		if(counter==3){
+			return "ThreeKind: "+suit;
+		}
 
-		return false;
+		return "No ThreeKind";
 	}
 
-	public static boolean hasPair(String []hand){
+	public static String hasPair(String []hand){
 		char suit=hand[0].charAt(0);
 		char counter=1;
 		for(int i=1;i<hand.length;i++){
@@ -66,9 +70,9 @@ public class Problem54{
 			}
 		}
 
-		if(counter==2)
-			return true;
-
+		if(counter==2){
+			return "Pair: "+suit;
+		}
 		suit=hand[1].charAt(0);
 		counter=1;
 		for(int i=2;i<hand.length;i++){
@@ -76,8 +80,9 @@ public class Problem54{
 				counter++;
 			}
 		}
-		if(counter==2)
-			return true;
+		if(counter==2){
+			return "Pair: "+suit;
+		}
 
 		suit=hand[2].charAt(0);
 		counter=1;
@@ -86,10 +91,10 @@ public class Problem54{
 				counter++;
 			}
 		}
-		if(counter==2)
-			return true;
-
-		return false;
+		if(counter==2){
+			return "Pair: "+suit;
+		}
+		return "No Pair";
 	}
 	public static String winner(String hands[]){
 		String []player1=new String[5];
@@ -113,25 +118,7 @@ public class Problem54{
 			return "Player 2";
 		}
 
-		if(hasThreeKind(player1)){
-			System.out.println("Player 1 Three kind: "+Arrays.toString(player1));
-			return "Player 1";
-		}
 
-		if(hasThreeKind(player2)){
-			System.out.println("Player 2 Three Kind: "+Arrays.toString(player2));
-			return "Player 2";
-		}	
-
-		if(hasPair(player1)){
-			System.out.println("Player 1 Pair: "+Arrays.toString(player1));
-			return "Player 1";
-		}
-
-		if(hasPair(player2)){
-			System.out.println("Player 2 Pair: "+Arrays.toString(player2));
-			return "Player 2";
-		}
 	else return "Don't know";	
 
 	}
