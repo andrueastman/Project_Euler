@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class Problem54{
 	public static String []values={"2","3","4","5","6","7","8","9","T","J","Q","K","A"};
@@ -129,43 +130,93 @@ public class Problem54{
 		String []player2=new String[5];
 		System.arraycopy(hands,0,player1,0,player1.length);
 		System.arraycopy(hands,player1.length,player2,0,player2.length);
-		//royal flush
-		/*if(isRoyalFlush(Arrays.toString(player1))){
+		//start from the top
+		//flush wins!!
+		if(isFlush(player1) && !isFlush(player2)){
 			return "Player 1";
 		}
-		if(isRoyalFlush(Arrays.toString(player2))){
-			return "Player 2";			
-		}*/
-
-		if(isStraight(player1)){
-			System.out.println("Player 1 Straight: "+Arrays.toString(player1));
-			return "Player 1";
-		}	
-		if(isStraight(player2)){
-			System.out.println("Player 2 Straight: "+Arrays.toString(player2));
+		else if(isFlush(player2) && !isFlush(player1)){
 			return "Player 2";
-		}/*
+		}
+		//straight wins!!
+		else if(isStraight(player2) && !isStraight(player1)){
+			return "Player 2";
+		}
+		else if(isStraight(player1) && !isStraight(player2)){
+			return "Player 1";
+		}
+		//three of a kind wins!!
 		String [] res1=hasThreeKind(player1);
 		String [] res2=hasThreeKind(player2);
-		if(res1[0].equals("ThreeKind")){
+		if(res1[0].equals("ThreeKind") && !res2[0].equals("ThreeKind")){
+			return "Player 1";
+		}
+		else if(res2[0].equals("ThreeKind") && !res1[0].equals("ThreeKind")){
+			return "Player 2";
+		}
+
+		//pairs wins!!
+		res1=hasPair(player1);
+		res2=hasPair(player2);
+		if(res1[0].equals("Pair") && !res2[0].equals("Pair")){
+			return "Player 1";
+		}
+		else if(res2[0].equals("Pair") && !res1[0].equals("Pair")){
+			return "Player 2";
+		}
+		else if(res2[0].equals("Pair") && res1[0].equals("Pair")){
 			res1=hasOtherPair(res1,player1);
-			if(res1[2]!=null){
-				System.out.println("Player 1 has two Pairs of: "+res1[1]+" and "+res1[2]+" "+Arrays.toString(player1));		
-			}else{
-				System.out.println("Player 1 has ThreeKind of: "+res1[1]+Arrays.toString(player1));
+			res2=hasOtherPair(res2,player2);
+			if(res1[2]==null && !(res2[2]==null)){
+				return "Player 2";
+			}
+			else if(!(res1[2]==null) && res2[2]==null){
+				return "Player 1";
+			}
+			else if(res1[2]==null && res2[2]==null){
+				if(res1[1].equals(res2[1])){
+					List vals=Arrays.asList(values);
+					String[] vals1=cardValues(player1);
+					String[] vals2=cardValues(player2);
+					if(vals.indexOf(vals1[0])>vals.indexOf(vals2[0])){
+						return "Player 1";
+					}
+
+					else if(vals.indexOf(vals2[0])>vals.indexOf(vals1[0])){
+						return "Player 2";
+					}
+				}
+				else{
+					List vals=Arrays.asList(values);
+					if(vals.indexOf(res1[1])>vals.indexOf(res2[1])){
+						return "Player 1";
+					}
+					else{
+						return "Player 2";
+					}
+				}
+								
+			}
+			else if(!(res1[2]==null) && !(res2[2]==null)){
+				System.out.println("Both have TWO PAirs!!");
+
 			}
 		}
-		
-		if(res2[0].equals("ThreeKind")){
-			res2=hasOtherPair(res2,player2);
-			if(res1[2]!=null){
-				System.out.println("Player 2 has two Pairs of: "+res2[1]+" and "+res2[2]+" "+Arrays.toString(player2));	
-			}else{
-				System.out.println("Player 2 has ThreeKind of: "+res2[1]+Arrays.toString(player2));
-			}
-		}*/
+
+
+		//highest value card wins!!
+		List vals=Arrays.asList(values);
+		String[] vals1=cardValues(player1);
+		String[] vals2=cardValues(player2);
+		if(vals.indexOf(vals1[0])>vals.indexOf(vals2[0])){
+			return "Player 1";
+		}
+
+		else if(vals.indexOf(vals2[0])>vals.indexOf(vals1[0])){
+			return "Player 2";
+		}
 		//System.out.println(hasThreeKind(player1)+" "+Arrays.toString(player1));
-		System.out.println(Arrays.toString(cardValues(player1))+": "+Arrays.toString(player1));
+		//System.out.println(Arrays.toString(cardValues(player1))+": "+Arrays.toString(player1));
 		return "Don't know";	
 
 	}
@@ -174,18 +225,32 @@ public class Problem54{
 		System.out.println("Problem54");
 		int player1=0;
 		int player2=0;
+		int unknown =0;
 		try (BufferedReader br = new BufferedReader(new FileReader("p054_poker.txt"))){
 			String sCurrentLine;
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				String []cards=sCurrentLine.split(" ");
 				String winner= winner(cards);
+				if(winner.equals("Player 1")){
+					player1++;
+				}
+				else if(winner.equals("Player 2")){
+					player2++;
+				}
+				else
+					unknown++;
+
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		System.out.println("Player 1: "+player1);
+		System.out.println("Player 2: "+player2);
+		System.out.println("unknown: "+unknown);
+		System.out.println("Total Games: "+(player1+player2));
 	}
 
 
